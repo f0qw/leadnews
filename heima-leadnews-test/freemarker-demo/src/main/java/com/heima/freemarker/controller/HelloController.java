@@ -15,7 +15,7 @@ public class HelloController {
     public String hello(Model model){
 
         //name
-//        model.addAttribute("name","freemarker");
+        model.addAttribute("name","freemarker");
         //stu
         Student student = new Student();
         student.setName("小明");
