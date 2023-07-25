@@ -151,5 +151,13 @@
 <!--            <version>版本号</version>-->
         </dependency>
 
+
+<!--        自己新增-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.17</version>
+        </dependency>
+
     </dependencies>
 </project>

@@ -1,6 +1,7 @@
 package com.heima.wemedia.controller.v1;
 
 import com.heima.model.common.dtos.ResponseResult;
+import com.heima.model.wemedia.dtos.WmNewsDto;
 import com.heima.model.wemedia.dtos.WmNewsPageReqDto;
 import com.heima.wemedia.service.WmNewsService;
 import io.swagger.annotations.Api;
@@ -22,6 +23,12 @@ public class WmNewsController {
     @ApiOperation("根据多条件分页查询所有文章")
     public ResponseResult findAll(@RequestBody WmNewsPageReqDto dto){
         return  wmNewsService.findAll(dto);
+    }
+
+    @PostMapping("/submit")
+    @ApiOperation("发布新文章或者保存草稿")
+    public ResponseResult submitNews(@RequestBody WmNewsDto dto){
+        return  wmNewsService.submitNews(dto);
     }
 
 }
