@@ -7,6 +7,7 @@ import com.heima.article.mapper.ApArticleConfigMapper;
 import com.heima.article.mapper.ApArticleContentMapper;
 import com.heima.article.mapper.ApArticleMapper;
 import com.heima.article.service.ApArticleService;
+import com.heima.article.service.ArticleFreemarkerService;
 import com.heima.common.constants.ArticleConstants;
 import com.heima.model.article.dtos.ArticleDto;
 import com.heima.model.article.dtos.ArticleHomeDto;
@@ -79,6 +80,10 @@ public class ApArticleServiceImpl  extends ServiceImpl<ApArticleMapper, ApArticl
     @Autowired
     private ApArticleContentMapper apArticleContentMapper;
 
+
+    @Autowired
+    private ArticleFreemarkerService articleFreemarkerService;
+
     /**
      * 保存app端相关文章
      * @param dto
@@ -87,13 +92,11 @@ public class ApArticleServiceImpl  extends ServiceImpl<ApArticleMapper, ApArticl
     @Override
     public ResponseResult saveArticle(ArticleDto dto) {
 
-        //测试熔断降级
-//        try {
-//            Thread.sleep(3000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
+        //        try {
+        //            Thread.sleep(3000);
+        //        } catch (InterruptedException e) {
+        //            e.printStackTrace();
+        //        }
         //1.检查参数
         if(dto == null){
             return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
@@ -102,14 +105,13 @@ public class ApArticleServiceImpl  extends ServiceImpl<ApArticleMapper, ApArticl
         ApArticle apArticle = new ApArticle();
         BeanUtil.copyProperties(dto,apArticle);
 
-
         //2.判断是否存在id
         if(dto.getId() == null){
             //2.1 不存在id  保存  文章  文章配置  文章内容
-//            log.error("此时的id是空null : {}",apArticle.getId());
+
             //保存文章
             save(apArticle);
-//            log.error("保存后的id会返回 : {}",apArticle.getId());
+
             //保存配置
             ApArticleConfig apArticleConfig = new ApArticleConfig(apArticle.getId());
             apArticleConfigMapper.insert(apArticleConfig);
@@ -126,11 +128,14 @@ public class ApArticleServiceImpl  extends ServiceImpl<ApArticleMapper, ApArticl
             //修改  文章
             updateById(apArticle);
 
-            //不需要修改配置 只需要修改文章内容
+            //修改文章内容
             ApArticleContent apArticleContent = apArticleContentMapper.selectOne(Wrappers.<ApArticleContent>lambdaQuery().eq(ApArticleContent::getArticleId, dto.getId()));
             apArticleContent.setContent(dto.getContent());
             apArticleContentMapper.updateById(apArticleContent);
         }
+
+        //异步调用 生成静态文件上传到minio中
+        articleFreemarkerService.buildArticleToMinIO(apArticle,dto.getContent());
 
 
         //3.结果返回  文章的id
