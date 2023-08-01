@@ -86,6 +86,14 @@ public class ApArticleServiceImpl  extends ServiceImpl<ApArticleMapper, ApArticl
      */
     @Override
     public ResponseResult saveArticle(ArticleDto dto) {
+
+        //测试熔断降级
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
         //1.检查参数
         if(dto == null){
             return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
@@ -98,10 +106,10 @@ public class ApArticleServiceImpl  extends ServiceImpl<ApArticleMapper, ApArticl
         //2.判断是否存在id
         if(dto.getId() == null){
             //2.1 不存在id  保存  文章  文章配置  文章内容
-            log.error("此时的id是空null : {}",apArticle.getId());
+//            log.error("此时的id是空null : {}",apArticle.getId());
             //保存文章
             save(apArticle);
-            log.error("保存后的id会返回 : {}",apArticle.getId());
+//            log.error("保存后的id会返回 : {}",apArticle.getId());
             //保存配置
             ApArticleConfig apArticleConfig = new ApArticleConfig(apArticle.getId());
             apArticleConfigMapper.insert(apArticleConfig);

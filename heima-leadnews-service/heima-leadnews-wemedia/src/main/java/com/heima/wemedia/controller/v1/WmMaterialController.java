@@ -21,15 +21,17 @@ public class WmMaterialController {
     private WmMaterialService wmMaterialService;
 
 
-    @PostMapping("/upload_picture")
     @ApiOperation("图片素材的上传")
+    @PostMapping("/upload_picture")
     public ResponseResult uploadPicture(MultipartFile multipartFile){
+        System.out.println("/upload_picture执行");
         return wmMaterialService.uploadPicture(multipartFile);
     }
 
     @ApiOperation("点击素材管理后显示分页查询的图片")
     @PostMapping("/list")
     public ResponseResult findList(@RequestBody WmMaterialDto dto){
+        System.out.println("/list执行");
         return wmMaterialService.findList(dto);
     }
 }

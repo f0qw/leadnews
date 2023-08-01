@@ -49,6 +49,7 @@ public class WmMaterialServiceImpl extends ServiceImpl<WmMaterialMapper, WmMater
         String fileName = UUID.randomUUID().toString().replace("-", "");
         //aa.jpg
         String originalFilename = multipartFile.getOriginalFilename();
+        System.out.println("上传的文件名是:"+originalFilename);
         String postfix = originalFilename.substring(originalFilename.lastIndexOf("."));
         String fileId = null;
         try {
