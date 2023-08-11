@@ -49,7 +49,6 @@ public class WmMaterialServiceImpl extends ServiceImpl<WmMaterialMapper, WmMater
         String fileName = UUID.randomUUID().toString().replace("-", "");
         //aa.jpg
         String originalFilename = multipartFile.getOriginalFilename();
-        System.out.println("上传的文件名是:"+originalFilename);
         String postfix = originalFilename.substring(originalFilename.lastIndexOf("."));
         String fileId = null;
         try {
@@ -86,7 +85,7 @@ public class WmMaterialServiceImpl extends ServiceImpl<WmMaterialMapper, WmMater
         dto.checkParam();
 
         //2.分页查询
-        IPage page = new Page(dto.getPage(),dto.getSize());
+        IPage pageResult = new Page(dto.getPage(),dto.getSize());
         LambdaQueryWrapper<WmMaterial> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         //是否收藏
         if(dto.getIsCollection() != null && dto.getIsCollection() == 1){
@@ -100,11 +99,11 @@ public class WmMaterialServiceImpl extends ServiceImpl<WmMaterialMapper, WmMater
         lambdaQueryWrapper.orderByDesc(WmMaterial::getCreatedTime);
 
 
-        page = page(page,lambdaQueryWrapper);
+        pageResult = page(pageResult,lambdaQueryWrapper);
 
         //3.结果返回
-        ResponseResult responseResult = new PageResponseResult(dto.getPage(),dto.getSize(),(int)page.getTotal());
-        responseResult.setData(page.getRecords());
+        ResponseResult responseResult = new PageResponseResult(dto.getPage(),dto.getSize(),(int)pageResult.getTotal());
+        responseResult.setData(pageResult.getRecords());
         return responseResult;
     }
 

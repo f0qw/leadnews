@@ -15,10 +15,10 @@ public class ArticleClient implements IArticleClient {
     @Autowired
     private ApArticleService apArticleService;
 
+
     @Override
     @PostMapping("/api/v1/article/save")
     public ResponseResult saveArticle(@RequestBody ArticleDto dto) {
         return apArticleService.saveArticle(dto);
     }
-
 }
