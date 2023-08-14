@@ -18,6 +18,8 @@
         <module>heima-leadnews-test</module>
         <module>heima-leadnews-basic</module>
         <module>heima-leadnews-test/test4j-demo</module>
+        <module>heima-leadnews-test/kueen-demo</module>
+        <module>heima-leadnews-test/kafka-demo</module>
     </modules>
 
     <!-- 继承Spring boot工程 -->
