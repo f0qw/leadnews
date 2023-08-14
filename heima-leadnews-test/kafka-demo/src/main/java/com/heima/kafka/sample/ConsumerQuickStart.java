@@ -42,9 +42,7 @@ public class ConsumerQuickStart {
         //同步提交和异步提交偏移量
         try {
             while (true) {
-                System.out.println("监听消息。。。。");
                 ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(1000));
-                System.out.println("少时诵诗书"+consumerRecords);
                 for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {
                     System.out.println(consumerRecord.key());
                     System.out.println(consumerRecord.value());
