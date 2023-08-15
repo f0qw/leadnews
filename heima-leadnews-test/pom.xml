@@ -17,6 +17,7 @@
         <module>test4j-demo</module>
         <module>kueen-demo</module>
         <module>kafka-demo</module>
+        <module>es-init</module>
     </modules>
 
     <properties>
