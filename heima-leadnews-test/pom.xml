@@ -18,6 +18,7 @@
         <module>kueen-demo</module>
         <module>kafka-demo</module>
         <module>es-init</module>
+        <module>mongo-demo</module>
     </modules>
 
     <properties>
